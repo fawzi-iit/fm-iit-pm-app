@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1 Tasks for #{project.name}
+  ul
+    each task in tasks
+      li
+        #{task.name}
+        - if (task.status === 'Pending')
+          form(action=`/tasks/${task._id}/complete` method="post")
+            button Complete
+        - if (task.status === 'Completed')
+          | Completed
+        form(action=`/tasks/${task._id}/delete` method="post")
+          button Delete
+  a(href=`/projects/${project._id}/tasks/new`) Add New Task

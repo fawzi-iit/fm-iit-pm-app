@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 Create New Project
+  form(action="/projects" method="post")
+    div
+      label(for="name") Project Name:
+      input(type="text" name="name" required)
+    div
+      label(for="description") Description:
+      textarea(name="description")
+    div
+      label(for="startDate") Start Date:
+      input(type="date" name="startDate")
+    div
+      label(for="endDate") End Date:
+      input(type="date" name="endDate")
+    button(type="submit") Create Project
