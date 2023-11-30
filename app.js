@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -7,8 +8,6 @@ const bodyParser = require('body-parser');
 const projectRoutes = require('./routes/projects');
 const taskRoutes = require('./routes/index'); // Assuming this is your task route file
 // Add other route imports as necessary
-
-const app = express();
 
 // Connect to MongoDB
 // mongoose.connect('your_mongodb_connection_string', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -41,3 +40,5 @@ app.use((req, res, next) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
+// Export the app instance
+module.exports = app;
