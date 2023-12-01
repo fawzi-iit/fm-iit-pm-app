@@ -95,3 +95,10 @@ function fetchTasksForProject(projectId) {
         })
         .catch(error => console.error('Error:', error));
 }
+function showCreateTaskForm() {
+    document.getElementById('createTaskForm').classList.remove('hidden');
+}
+
+function hideCreateTaskForm() {
+    document.getElementById('createTaskForm').classList.add('hidden');
+}

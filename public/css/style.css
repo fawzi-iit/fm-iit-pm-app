@@ -94,12 +94,46 @@ nav ul li a {
   line-height: 1.6;
 }
 
+/* Form Styling */
+#createProjectForm, #createTaskForm {
+  background: #f8f8f8;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4cae4c;
+}
+
 /* Footer */
 footer {
   text-align: center;
   padding: 20px 0;
   background: #333;
   color: #fff;
+}
+
+/* Hidden */
+.hidden {
+  display: none;
 }
 
 /* Media Queries for Responsive Design */
