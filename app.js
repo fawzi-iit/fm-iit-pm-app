@@ -1,45 +1,51 @@
+const createError = require('http-errors');
 const express = require('express');
-const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const mongoose = require('mongoose');
-mongoose.set('strictQuery', true);
-const bodyParser = require('body-parser');
 
-// Import routes
-const projectRoutes = require('./routes/projects');
-const taskRoutes = require('./routes/index'); // Assuming this is your task route file
-// Add other route imports as necessary
+const indexRouter = require('./routes/index');
+const projectsRouter = require('./routes/projects');
+const tasksRouter = require('./routes/tasks');
 
-// Connect to MongoDB
-mongoose.connect('mongodb://iit-fawzi-app1-server:vfNVMug4Ao9IMAYZbk4BgirsQ1CBJbNJOVqsIpTI9i3SpYm7A16JDxWOFm94Icfh3advlTWZv7o3ACDbawF38A==@iit-fawzi-app1-server.mongo.cosmos.azure.com:10255/iit-fawzi-app1-database?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@iit-fawzi-app1-server@', { useNewUrlParser: true, useUnifiedTopology: true })
-// mongoose.connect('mongodb://localhost:27017', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB...'))
-  .catch(err => console.error('Could not connect to MongoDB...', err));
 
-// Set view engine to Pug
+const app = express();
+
+// MongoDB connection
+const mongoDB = 'mongodb://localhost:27017/iitappdb';
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// Body Parser Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// Set static folder
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Use routes
-app.use('/projects', projectRoutes);
-app.use('/tasks', taskRoutes);
-// Add other app.use() for additional routes
+app.use('/', indexRouter);
+app.use('/projects', projectsRouter);
+app.use('/tasks', tasksRouter);
 
-// Basic error handling
-app.use((req, res, next) => {
-  res.status(404).send('Sorry, that route does not exist!');
+// Catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Error handler
+app.use(function(err, req, res, next) {
+  // Set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-// Export the app instance
+  // Render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+app.listen(3000)
 module.exports = app;

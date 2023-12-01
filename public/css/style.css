@@ -1,0 +1,110 @@
+/* Reset some basic elements */
+body, h1, h2, h3, p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Basic body styling */
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+/* Container for centering the content */
+.container {
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Header */
+header {
+  background: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* Navigation Bar */
+nav ul {
+  padding: 0;
+  list-style: none;
+  background: #444;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  color: #fff;
+  padding: 10px 15px;
+  text-decoration: none;
+}
+
+/* Main content area */
+.main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.main > div {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Project cards */
+.project {
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.project h2 {
+  margin-bottom: 10px;
+}
+
+/* Task card styling */
+.task {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 15px;
+  transition: box-shadow 0.3s ease;
+}
+
+.task:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.task p {
+  color: #666;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  background: #333;
+  color: #fff;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 700px) {
+  .main {
+      flex-direction: column;
+  }
+}

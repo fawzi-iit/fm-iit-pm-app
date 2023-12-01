@@ -1,18 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const Project = require('../models/project');
+const Project = require('../models/project'); // Adjust the path as necessary
 
-// Add routes for creating, viewing, updating, and deleting projects
-// Example: GET route to list all projects
+// GET route to list all projects
 router.get('/', async (req, res) => {
     try {
-        const projects = await Project.find();
-        res.json(projects);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        const projects = await Project.find(); // Fetch all projects
+        res.json(projects); // Send the projects as a JSON response
+    } catch (error) {
+        res.status(500).send('Error fetching projects: ' + error.message);
     }
 });
 
-// Add other routes (POST, PUT, DELETE) here
+// POST route to create a new project
+router.post('/', async (req, res) => {
+    const project = new Project({
+        name: req.body.name,
+        description: req.body.description
+    });
+
+    try {
+        const newProject = await project.save();
+        res.status(201).json(newProject);
+    } catch (error) {
+        res.status(400).send('Error creating project: ' + error.message);
+    }
+});
 
 module.exports = router;

@@ -8,4 +8,5 @@ const projectSchema = new mongoose.Schema({
     status: { type: String, enum: ['Active', 'Completed', 'On Hold'], default: 'Active' }
 });
 
+const Project = mongoose.model('Project', projectSchema);
 module.exports = mongoose.model('Project', projectSchema);
