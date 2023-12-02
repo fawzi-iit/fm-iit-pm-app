@@ -8,12 +8,14 @@
 </head>
 <body>
     <header>
-        <h1><a href="#" id="dashboardLink">Project Dashboard</a></h1>
+        <h1><a href="#" id="dashboardLink" title="Home">Project Dashboard</a></h1>
     </header>
 
-    <!-- Project Creation Form -->
-    <div id="createProjectForm">
-        <h3>Create Project</h3>
+    <!-- Create Project Link -->
+<h3><a href="#" id="createProjectLink" class="button-like">Create Project</a></h3>
+
+    <!-- Hidden Form for Creating a Project -->
+    <div id="createProjectForm" class="hidden">
         <input type="text" id="newProjectName" placeholder="Project Name">
         <textarea id="newProjectDescription" placeholder="Project Description"></textarea>
         <button onclick="createProject()">Create Project</button>
@@ -21,10 +23,7 @@
 
     <!-- Task Creation Form (hidden initially) -->
     <div id="createTaskForm" class="hidden">
-        <h3>Create Task</h3>
-        <input type="text" id="newTaskTitle" placeholder="Task Title">
-        <textarea id="newTaskDescription" placeholder="Task Description"></textarea>
-        <button onclick="createTask(currentProjectId)">Create Task</button>
+        <!-- Task form content -->
     </div>
 
     <!-- Projects and Tasks Display Area -->

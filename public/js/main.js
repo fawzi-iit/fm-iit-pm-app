@@ -3,10 +3,20 @@ let currentProjectId = null;
 document.addEventListener('DOMContentLoaded', function() {
     loadProjects();
 
+    // Event listener for the 'Project Dashboard' link
     const dashboardLink = document.getElementById('dashboardLink');
     dashboardLink.addEventListener('click', function(event) {
         event.preventDefault();
         loadProjects();
+        hideCreateProjectForm();
+        hideCreateTaskForm(); // Hide task form as well if it's visible
+    });
+
+    // Event listener for the 'Create Project' link
+    const createProjectLink = document.getElementById('createProjectLink');
+    createProjectLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        showCreateProjectForm();
     });
 });
 
@@ -70,7 +80,8 @@ function attachProjectClickHandlers() {
             event.preventDefault();
             currentProjectId = this.getAttribute('data-projectid');
             fetchTasksForProject(currentProjectId);
-            document.getElementById('createTaskForm').style.display = 'block';
+            showCreateTaskForm();
+            showBackButton();
         });
     });
 }
@@ -79,26 +90,53 @@ function fetchTasksForProject(projectId) {
     fetch(`/tasks/project/${projectId}`)
         .then(response => response.json())
         .then(tasks => {
-            console.log(tasks);
             const projectsContainer = document.getElementById('projects');
             projectsContainer.innerHTML = '';
 
+            // Add a 'Back' button
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Back to Projects';
+            backButton.onclick = loadProjects; // Load projects when clicked
+            projectsContainer.appendChild(backButton);
+
+            // Display tasks for the selected project
             tasks.forEach(task => {
                 const taskDiv = document.createElement('div');
                 taskDiv.className = 'task';
                 taskDiv.innerHTML = `
                     <h3>${task.title}</h3>
                     <p>${task.description}</p>
+                    <!-- ... other task details ... -->
                 `;
                 projectsContainer.appendChild(taskDiv);
             });
         })
         .catch(error => console.error('Error:', error));
 }
+
+function showCreateProjectForm() {
+    document.getElementById('createProjectForm').classList.remove('hidden');
+}
+
+function hideCreateProjectForm() {
+    document.getElementById('createProjectForm').classList.add('hidden');
+}
+
 function showCreateTaskForm() {
     document.getElementById('createTaskForm').classList.remove('hidden');
 }
 
 function hideCreateTaskForm() {
     document.getElementById('createTaskForm').classList.add('hidden');
+}
+
+function showBackButton() {
+    const projectsContainer = document.getElementById('projects');
+    const backButton = document.createElement('button');
+    backButton.textContent = 'Back to Projects';
+    backButton.onclick = function() {
+        loadProjects();
+        hideCreateTaskForm();
+    };
+    projectsContainer.insertBefore(backButton, projectsContainer.firstChild);
 }

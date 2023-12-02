@@ -136,6 +136,51 @@ footer {
   display: none;
 }
 
+/* Style for links that should look like buttons */
+.button-like {
+  display: inline-block;
+  background-color: #5cb85c; /* Example button color */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.button-like:hover {
+  background-color: #4cae4c; /* Darker shade for hover effect */
+}
+
+/* Style for the Project Dashboard link */
+#dashboardLink {
+  color: white;
+  text-decoration: none; /* Optional: removes underline from the link */
+}
+
+#dashboardLink:hover {
+  text-decoration: underline; /* Optional: adds underline on hover */
+}
+
+.status {
+  font-weight: bold;
+}
+
+.status.Not-Started {
+  color: gray;
+}
+
+.status.In-Progress {
+  color: blue;
+}
+
+.status.Completed {
+  color: green;
+}
+
+
 /* Media Queries for Responsive Design */
 @media (max-width: 700px) {
   .main {
