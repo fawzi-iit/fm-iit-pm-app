@@ -5,12 +5,29 @@ block content
   ul
     each task in tasks
       li
-        #{task.name}
-        - if (task.status === 'Pending')
-          form(action=`/tasks/${task._id}/complete` method="post")
-            button Complete
-        - if (task.status === 'Completed')
-          | Completed
+        | Task: #{task.title}
+        br
+        | Description: #{task.description}
+        br
+        | Priority: #{task.priority}
+        br
+        | Progress: #{task.progress}%
+        br
+        if task.assignee
+          | Assignee: #{task.assignee.name} // Adjust based on your user model
+        else
+          | Assignee: Not assigned
+        br
+        - if (task.status === 'Not Started')
+          | Status: Not Started
+        - else if (task.status === 'In Progress')
+          | Status: In Progress
+        - else if (task.status === 'Completed')
+          | Status: Completed
+        br
+        form(action=`/tasks/${task._id}/update` method="post")
+          // Add form fields for updating task details
+          button Update Task
         form(action=`/tasks/${task._id}/delete` method="post")
-          button Delete
+          button Delete Task
   a(href=`/projects/${project._id}/tasks/new`) Add New Task

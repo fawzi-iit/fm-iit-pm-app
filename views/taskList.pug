@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Task List
+    ul
+        each task in tasks
+            li
+                | Task: #{task.name} - Priority: #{task.priority} - Progress: #{task.progress}%
+                if task.assignee
+                    | - Assignee: #{task.assignee.name}
+                else
+                    | - Assignee: Not Assigned

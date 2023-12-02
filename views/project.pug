@@ -10,4 +10,6 @@ block content
   ul
     each task in project.tasks
       li #{task.name} - #{task.status}
-  a(href=`/projects/${project._id}/tasks/new`) Add New Task
+
+  // Updated "Create Task" button
+  a(href=`/tasks/create?projectId=${project._id}`).button-like Create Task

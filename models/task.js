@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
-    // ... existing fields ...
+
     title: {
         type: String,
         required: true // Assuming each task should have a title
@@ -25,17 +25,22 @@ const taskSchema = new mongoose.Schema({
         enum: ['High', 'Medium', 'Low'],
         default: 'Medium'
     },
+
     status: {
         type: String,
-        enum: ['Not Started', 'In Progress', 'Completed'],
+        enum:  ['Not Started', 'In Progress', 'Completed'],
         default: 'Not Started'
     },
-    deadline: Date,
     progress: {
         type: Number,
-        default: 0 // Percentage of task completion
-    }
-    // Add any other fields as necessary
+        default: 0,
+        validate: {
+            validator: function(v) {
+                return v >= 0 && v <= 100;
+            },
+            message: props => `${props.value} is not a valid progress percentage!`
+        }
+    },
 });
 
 module.exports = mongoose.model('Task', taskSchema);

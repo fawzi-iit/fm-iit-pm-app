@@ -180,6 +180,10 @@ footer {
   color: green;
 }
 
+.btn-primary {
+  background-color: #4cae4c; /* Darker shade for hover effect */
+}
+
 
 /* Media Queries for Responsive Design */
 @media (max-width: 700px) {

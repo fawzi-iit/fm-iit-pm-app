@@ -18,6 +18,40 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         showCreateProjectForm();
     });
+
+    document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
+        element.addEventListener('change', (event) => {
+            const taskId = event.target.dataset.taskId;
+            const updatedValue = { [event.target.className]: event.target.value };
+            // Send PATCH request to server
+            // ...
+        });
+    });
+
+    document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
+        element.addEventListener('change', async (event) => {
+            const taskId = event.target.dataset.taskId;
+            const updatedValue = { [event.target.className.split('-')[1]]: event.target.value };
+    
+            try {
+                const response = await fetch(`/tasks/${taskId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedValue),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+    
+                // Handle successful response here, if needed
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        });
+    });
 });
 
 function createProject() {
@@ -106,6 +140,17 @@ function fetchTasksForProject(projectId) {
                 taskDiv.innerHTML = `
                     <h3>${task.title}</h3>
                     <p>${task.description}</p>
+                    <select class="task-priority" data-task-id="${task._id}">
+                        <option value="High" ${task.priority === 'High' ? 'selected' : ''}>High</option>
+                        <option value="Medium" ${task.priority === 'Medium' ? 'selected' : ''}>Medium</option>
+                        <option value="Low" ${task.priority === 'Low' ? 'selected' : ''}>Low</option>
+                    </select>
+                    <select class="task-status" data-task-id="${task._id}">
+                        <option value="Not Started" ${task.status === 'Not Started' ? 'selected' : ''}>Not Started</option>
+                        <option value="In Progress" ${task.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                        <option value="Completed" ${task.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                    </select>
+                    <input type="range" class="task-progress" data-task-id="${task._id}" value="${task.progress}" min="0" max="100">
                     <!-- ... other task details ... -->
                 `;
                 projectsContainer.appendChild(taskDiv);

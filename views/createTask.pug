@@ -1,0 +1,42 @@
+extends layout
+
+block content
+    h1 Create New Task
+    form(action="/tasks" method="post")
+        // Include projectId as a hidden field if it exists
+        if projectId
+            input(type="hidden" name="projectId" value=projectId)
+
+        // Field for Task Title
+        div.form-group
+            label(for="title") Title
+            input#title.form-control(type="text" name="title" required)
+
+        // Field for Task Description
+        div.form-group
+            label(for="description") Description
+            textarea#description.form-control(name="description" required)
+
+        // Field for Task Priority
+        div.form-group
+            label(for="priority") Priority
+            select#priority.form-control(name="priority")
+                option(value="High") High
+                option(value="Medium") Medium
+                option(value="Low") Low
+
+        // Field for Task Status
+        div.form-group
+            label(for="status") Status
+            select#status.form-control(name="status")
+                option(value="Not Started") Not Started
+                option(value="In Progress") In Progress
+                option(value="Completed") Completed
+
+        // Field for Task Progress
+        div.form-group
+            label(for="progress") Progress
+            input#progress.form-control(type="number" name="progress" min="0" max="100")
+
+        // Submit Button
+        button.btn.btn-primary(type="submit") Create Task

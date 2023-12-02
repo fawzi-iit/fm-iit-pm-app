@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Task = require('../models/task'); // Adjust the path as necessary
+const Task = require('../models/task');
 
 // GET route to list all tasks (general)
 router.get('/', async (req, res) => {
@@ -15,10 +15,20 @@ router.get('/', async (req, res) => {
 // GET route to list tasks for a specific project
 router.get('/project/:projectId', async (req, res) => {
     try {
-        const tasks = await Task.find({ projectId: req.params.projectId });
+        //const tasks = await Task.find({ projectId: req.params.projectId });
+        const tasks = await Task.find({ projectId: req.params.projectId }).populate('assignee');
         res.json(tasks);
     } catch (error) {
         res.status(500).send('Error fetching tasks for project: ' + error.message);
+    }
+});
+
+router.get('/tasks', async (req, res) => {
+    try {
+        const tasks = await Task.find().populate('assignee');
+        res.render('taskList', { tasks: tasks });
+    } catch (err) {
+        res.status(500).send(err);
     }
 });
 
@@ -40,6 +50,32 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Additional routes for updating and deleting tasks can also be added here
+router.patch('/tasks/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const update = {};
+
+        // Validate and set the fields if they exist in the request body
+        if (req.body.priority) update.priority = req.body.priority;
+        if (req.body.status) update.status = req.body.status;
+        if (req.body.progress) update.progress = req.body.progress;
+
+        // Log the incoming update for debugging
+        console.log("PATCH request received for task ID:", req.params.id);
+        console.log("Request body:", req.body);
+
+        const updatedTask = await Task.findByIdAndUpdate(id, update, { new: true });
+
+        if (!updatedTask) {
+            return res.status(404).send('Task not found');
+        }
+
+        res.json(updatedTask);
+    } catch (err) {
+        console.error('Error updating task:', err);
+        res.status(500).send(err);
+    }
+});
+
 
 module.exports = router;

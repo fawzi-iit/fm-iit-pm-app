@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Task = require('./models/task'); // Adjust path as necessary
-const Project = require('./models/project'); // Adjust path as necessary
+const Task = require('./models/task');
+const Project = require('./models/project');
 
 mongoose.connect('mongodb://localhost:27017/iitappdb', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -13,7 +13,6 @@ async function populateData() {
     const project = new Project({
       name: 'Project 1',
       description: 'Sample Project',
-      // Add other project fields as necessary
     });
     await project.save();
 
