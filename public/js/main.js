@@ -14,12 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Event listener for the 'Create Task' link
-    const createTaskLink = document.getElementById('createTaskLink');
-    createTaskLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        showCreateTaskForm();
-    });
-    
+// const createTaskLink = document.getElementById('createTaskLink');
+// if (createTaskLink) {
+//    createTaskLink.addEventListener('click', function(event) {
+//        event.preventDefault();
+//        showCreateTaskForm();
+//    });
+// } else {
+//    console.error("Element with ID 'createTaskLink' not found.");
+// }
     document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
         element.addEventListener('change', (event) => {
             const taskId = event.target.dataset.taskId;
@@ -199,8 +202,15 @@ function showCreateTaskForm(projectId) {
 }
 
 function hideCreateTaskForm() {
-    document.getElementById('createTaskForm').classList.add('hidden');
+    console.log("Hiding create task form"); // Debugging log
+    const form = document.getElementById('createTaskForm');
+    if (form) {
+        form.classList.add('hidden');
+    } else {
+        console.error("Create task form not found"); // Error log if form is not found
+    }
 }
+
 
 function showBackButton() {
     const projectsContainer = document.getElementById('projects');
