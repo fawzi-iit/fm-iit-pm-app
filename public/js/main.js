@@ -93,7 +93,12 @@ function createTask() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, description, projectId })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text) });
+        }
+        return response.json();
+    })
     .then(task => {
         fetchTasksForProject(projectId);
     })
@@ -127,6 +132,7 @@ function attachProjectClickHandlers() {
     document.querySelectorAll('.project-link').forEach(projectLink => {
         projectLink.addEventListener('click', function(event) {
             event.preventDefault();
+            const projectId = this.getAttribute('data-projectid');
             console.log("Clicked project ID:", this.getAttribute('data-projectid'));
             currentProjectId = this.getAttribute('data-projectid');
             fetchTasksForProject(currentProjectId);
@@ -184,6 +190,7 @@ function hideCreateProjectForm() {
 }
 
 function showCreateTaskForm(projectId) {
+    console.log("Setting project ID in form:", projectId);
     document.getElementById('projectIdField').value = projectId;
     document.getElementById('createTaskForm').classList.remove('hidden');
 }

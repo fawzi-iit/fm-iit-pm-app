@@ -39,6 +39,11 @@ router.get('/tasks/create', (req, res) => {
 
 // POST route to create a new task
 router.post('/', async (req, res) => {
+    // Validate projectId
+    if (!req.body.projectId) {
+        return res.status(400).send('Project ID is required');
+    }
+
     const task = new Task({
         title: req.body.title,
         description: req.body.description,
@@ -49,9 +54,11 @@ router.post('/', async (req, res) => {
         const newTask = await task.save();
         res.status(201).json(newTask);
     } catch (error) {
+        console.error('Task creation error:', error); // Added for better error logging
         res.status(400).send('Error creating task: ' + error.message);
     }
 });
+
 
 router.patch('/tasks/:id', async (req, res) => {
     try {
