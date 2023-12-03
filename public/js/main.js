@@ -2,6 +2,7 @@ let currentProjectId = null;
 
 document.addEventListener('DOMContentLoaded', function() {
     loadProjects();
+    hideCreateTaskForm();
 
     // Event listener for the 'Project Dashboard' link
     const dashboardLink = document.getElementById('dashboardLink');
@@ -12,20 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
         hideCreateTaskForm();
     });
 
-    // Event listener for the 'Create Project' link
-    const createProjectLink = document.getElementById('createProjectLink');
-    createProjectLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        showCreateProjectForm();
-    });
-
-    
-    /* Event listener for the 'Create Task' link
+    // Event listener for the 'Create Task' link
     const createTaskLink = document.getElementById('createTaskLink');
     createTaskLink.addEventListener('click', function(event) {
         event.preventDefault();
         showCreateTaskForm();
-    }); */
+    });
     
     document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
         element.addEventListener('change', (event) => {
@@ -62,6 +55,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Add event listener for the 'Show Create Task' button
+    const showCreateTaskButton = document.getElementById('showCreateTaskButton');
+    if (showCreateTaskButton) {
+        showCreateTaskButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            showCreateTaskForm();
+        });
+    }
+
 function createProject() {
     const name = document.getElementById('newProjectName').value;
     const description = document.getElementById('newProjectDescription').value;
@@ -82,7 +84,7 @@ function createTask() {
     const title = document.getElementById('newTaskTitle').value;
     const description = document.getElementById('newTaskDescription').value;
     const projectId = document.getElementById('projectIdField').value;
-
+    
     // Log the data being sent to the server
     console.log("Creating task with the following data:");
     console.log("Title:", title);
@@ -102,6 +104,7 @@ function createTask() {
     })
     .then(task => {
         fetchTasksForProject(projectId);
+        hideCreateTaskForm(); // Hide the form after task creation
     })
     .catch(error => console.error('Error:', error));
 }

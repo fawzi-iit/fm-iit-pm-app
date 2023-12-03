@@ -2,6 +2,10 @@ extends layout
 
 block content
     h1 Create New Task
+    // Button to show the create task form
+    button#showCreateTaskButton Show Create Task Form
+    // The Create Task Form, initially hidden
+    div#createTaskForm.hidden
     form(action="/tasks" method="post")
         // Include projectId as a hidden field if it exists
         if projectId
