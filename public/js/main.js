@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         loadProjects();
         hideCreateProjectForm();
+        hideCreateTaskForm();
     });
 
     // Event listener for the 'Create Project' link
@@ -133,10 +134,9 @@ function attachProjectClickHandlers() {
         projectLink.addEventListener('click', function(event) {
             event.preventDefault();
             const projectId = this.getAttribute('data-projectid');
-            console.log("Clicked project ID:", this.getAttribute('data-projectid'));
-            currentProjectId = this.getAttribute('data-projectid');
-            fetchTasksForProject(currentProjectId);
-            showCreateTaskForm();
+            console.log("Clicked project ID:", projectId);
+            fetchTasksForProject(projectId);
+            showCreateTaskForm(projectId); // Pass projectId to the function
             showBackButton();
         });
     });
