@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
+    console.log("Attaching event listener to:", element);
     element.addEventListener('change', async (event) => {
         const taskId = event.target.dataset.taskId;
         let propertyName = '';
@@ -26,6 +27,7 @@ document.querySelectorAll('.task-priority, .task-status, .task-progress').forEac
         }
 
         const updatedValue = { [propertyName]: event.target.value };
+        
 
         // Debugging: Log the data being sent
         console.log("Updating task:", taskId, "Property:", propertyName, "Value:", event.target.value);
@@ -86,6 +88,7 @@ function handleTaskUpdate(e) {
 document.addEventListener('DOMContentLoaded', function() {
     const updateForms = document.querySelectorAll('.task-update-form'); // Adjust selector as needed
     updateForms.forEach(form => form.addEventListener('submit', handleTaskUpdate));
+    console.log("Event listener triggered for task update");
 });
 });
 

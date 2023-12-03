@@ -44,6 +44,17 @@ const taskSchema = new mongoose.Schema({
 
 // Static method to update a task
 taskSchema.statics.updateTask = async function(taskId, status, progress, priority) {
+    // Validate input here
+    if (!['Not Started', 'In Progress', 'Completed'].includes(status)) {
+        throw new Error('Invalid status value');
+    }
+    if (progress < 0 || progress > 100) {
+        throw new Error('Progress must be between 0 and 100');
+    }
+    if (!['High', 'Medium', 'Low'].includes(priority)) {
+        throw new Error('Invalid priority value');
+    }
+
     try {
         return await this.findByIdAndUpdate(taskId, { status, progress, priority }, { new: true });
     } catch (error) {

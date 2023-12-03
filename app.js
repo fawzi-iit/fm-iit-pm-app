@@ -9,7 +9,6 @@ const indexRouter = require('./routes/index');
 const projectsRouter = require('./routes/projects');
 const tasksRouter = require('./routes/tasks');
 
-
 const app = express();
 
 // MongoDB connection
@@ -22,12 +21,20 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Logger middleware
 app.use(logger('dev'));
+
+// Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Cookie parsing middleware
 app.use(cookieParser());
+
+// Static file serving middleware
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Route handlers
 app.use('/', indexRouter);
 app.use('/projects', projectsRouter);
 app.use('/tasks', tasksRouter);
@@ -47,5 +54,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(3000)
+
+app.listen(3000);
 module.exports = app;
