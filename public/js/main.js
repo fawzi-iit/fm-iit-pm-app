@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         loadProjects();
         hideCreateProjectForm();
-        hideCreateTaskForm(); // Hide task form as well if it's visible
     });
 
     // Event listener for the 'Create Project' link
@@ -20,12 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     
-    // Event listener for the 'Create Task' link
+    /* Event listener for the 'Create Task' link
     const createTaskLink = document.getElementById('createTaskLink');
     createTaskLink.addEventListener('click', function(event) {
         event.preventDefault();
         showCreateTaskForm();
-    });
+    }); */
     
     document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
         element.addEventListener('change', (event) => {
@@ -78,9 +77,10 @@ function createProject() {
     .catch(error => console.error('Error:', error));
 }
 
-function createTask(projectId) {
+function createTask() {
     const title = document.getElementById('newTaskTitle').value;
     const description = document.getElementById('newTaskDescription').value;
+    const projectId = document.getElementById('projectIdField').value;
 
     fetch(`/tasks`, {
         method: 'POST',
@@ -176,7 +176,8 @@ function hideCreateProjectForm() {
     document.getElementById('createProjectForm').classList.add('hidden');
 }
 
-function showCreateTaskForm() {
+function showCreateTaskForm(projectId) {
+    document.getElementById('projectIdField').value = projectId;
     document.getElementById('createTaskForm').classList.remove('hidden');
 }
 

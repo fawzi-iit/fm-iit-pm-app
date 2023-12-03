@@ -11,5 +11,14 @@ block content
     each task in project.tasks
       li #{task.title} - #{task.status}
 
-  // Updated "Create Task" button
-  a(href=`/tasks/create?projectId=${project._id}`).button-like Create Task
+  // "Create Task" button
+  //a(href=`/tasks/create?projectId=${project._id}`).button-like Create Task
+  a(href=`#`).button-like(onclick=`showCreateTaskForm('${project._id}')`) Create Task
+  
+  // task creating form
+  div#createTaskForm.hidden
+    input(type="text" id="newTaskTitle" placeholder="Task Title")
+    textarea(id="newTaskDescription" placeholder="Task Description")
+    input(type="hidden" id="projectIdField" value="")
+    button(onclick="createTask()") Create Task
+
