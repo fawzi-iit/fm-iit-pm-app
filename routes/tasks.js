@@ -59,6 +59,16 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Update a task
+router.put('/tasks/:id', async (req, res) => {
+    try {
+        const { status, progress, priority } = req.body;
+        const updatedTask = await Task.updateTask(req.params.id, status, progress, priority);
+        res.json(updatedTask);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 
 router.patch('/tasks/:id', async (req, res) => {
     try {

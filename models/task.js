@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const taskSchema = new mongoose.Schema({
 
     title: {
@@ -42,5 +41,15 @@ const taskSchema = new mongoose.Schema({
         }
     },
 });
+
+// Static method to update a task
+taskSchema.statics.updateTask = async function(taskId, status, progress, priority) {
+    try {
+        return await this.findByIdAndUpdate(taskId, { status, progress, priority }, { new: true });
+    } catch (error) {
+        console.error("Error updating task:", error);
+        throw error;
+    }
+};
 
 module.exports = mongoose.model('Task', taskSchema);

@@ -5,25 +5,27 @@ block content
   ul
     each task in tasks
       li
-        | Task: #{task.title}
-        br
-        | Description: #{task.description}
-        br
-        | Priority: #{task.priority}
-        br
-        | Progress: #{task.progress}%
-        br
-        if task.assignee
-          | Assignee: #{task.assignee.name} // Adjust based on your user model
-        else
-          | Assignee: Not assigned
-        br
-        - if (task.status === 'Not Started')
-          | Status: Not Started
-        - else if (task.status === 'In Progress')
-          | Status: In Progress
-        - else if (task.status === 'Completed')
-          | Status: Completed
+        div
+          strong Title: 
+          | #{task.title}
+        div
+          strong Description: 
+          | #{task.description}
+        div
+          strong Priority: 
+          | #{task.priority}
+        div
+          strong Status: 
+          | #{task.status}
+        div
+          strong Progress: 
+          | #{task.progress}%
+        div
+          if task.assignee
+            strong Assignee: 
+            | #{task.assignee.name} // Adjust based on your user model
+          else
+            | Assignee: Not assigned
         br
         form(action=`/tasks/${task._id}/update` method="post")
           // Add form fields for updating task details

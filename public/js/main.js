@@ -13,49 +13,80 @@ document.addEventListener('DOMContentLoaded', function() {
         hideCreateTaskForm();
     });
 
-    // Event listener for the 'Create Task' link
-// const createTaskLink = document.getElementById('createTaskLink');
-// if (createTaskLink) {
-//    createTaskLink.addEventListener('click', function(event) {
-//        event.preventDefault();
-//        showCreateTaskForm();
-//    });
-// } else {
-//    console.error("Element with ID 'createTaskLink' not found.");
-// }
-    document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
-        element.addEventListener('change', (event) => {
-            const taskId = event.target.dataset.taskId;
-            const updatedValue = { [event.target.className]: event.target.value };
-            // Send PATCH request to server
-            // ...
-        });
-    });
+document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
+    element.addEventListener('change', async (event) => {
+        const taskId = event.target.dataset.taskId;
+        let propertyName = '';
+        if (event.target.classList.contains('task-priority')) {
+            propertyName = 'priority';
+        } else if (event.target.classList.contains('task-status')) {
+            propertyName = 'status';
+        } else if (event.target.classList.contains('task-progress')) {
+            propertyName = 'progress';
+        }
 
-    document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
-        element.addEventListener('change', async (event) => {
-            const taskId = event.target.dataset.taskId;
-            const updatedValue = { [event.target.className.split('-')[1]]: event.target.value };
-    
-            try {
-                const response = await fetch(`/tasks/${taskId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(updatedValue),
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-    
-                // Handle successful response here, if needed
-            } catch (error) {
-                console.error('Fetch error:', error);
+        const updatedValue = { [propertyName]: event.target.value };
+
+        // Debugging: Log the data being sent
+        console.log("Updating task:", taskId, "Property:", propertyName, "Value:", event.target.value);
+
+        try {
+            const response = await fetch(`/tasks/${taskId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedValue),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        });
+
+            // Debugging: Log the response
+            console.log("Response:", response);
+
+            // Handle successful response here, if needed
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
     });
+});
+
+// New function to handle task updates
+function handleTaskUpdate(e) {
+    e.preventDefault();
+
+    const taskId = this.getAttribute('data-task-id'); // Adjust as needed
+    const formData = new FormData(this);
+    const data = {
+        status: formData.get('status'),
+        progress: formData.get('progress'),
+        priority: formData.get('priority')
+    };
+
+    fetch(`/tasks/${taskId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        // Handle success (e.g., update the UI or redirect)
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+// Add event listener for task update form
+document.addEventListener('DOMContentLoaded', function() {
+    const updateForms = document.querySelectorAll('.task-update-form'); // Adjust selector as needed
+    updateForms.forEach(form => form.addEventListener('submit', handleTaskUpdate));
+});
 });
 
 // Add event listener for the 'Show Create Task' button

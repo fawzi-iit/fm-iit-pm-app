@@ -10,3 +10,14 @@ block content
                     | - Assignee: #{task.assignee.name}
                 else
                     | - Assignee: Not Assigned
+form(method="POST" action="/tasks/update-task")
+    select(name="status")
+        option(value="Not Started") Not Started
+        option(value="In Progress") In Progress
+        option(value="Completed") Completed
+    input(type="number" name="progress" min="0" max="100")
+    select(name="priority")
+        option(value="High") High
+        option(value="Medium") Medium
+        option(value="Low") Low
+    input(type="submit" value="Update Task")
