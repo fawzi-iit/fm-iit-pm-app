@@ -21,12 +21,16 @@
         <button onclick="createProject()">Create Project</button>
     </div>
 
+    <!-- Create Task Link -->
+    <h3><a href="#" id="createTaskLink" class="button-like">Create Task</a></h3>
+    
     <!-- Task Creation Form (hidden initially) -->
     <div id="createTaskForm" class="hidden">
-        <!-- Task form content -->
-    </div>
-
-    <!-- Projects and Tasks Display Area -->
+        <input type="text" id="newTaskTitle" placeholder="Task Title">
+        <textarea id="newTaskDescription" placeholder="Task Description"></textarea>
+        <button onclick="createTask()">Create Task</button>    </div>
+    
+        <!-- Projects and Tasks Display Area -->
     <div id="projects" class="main"></div>
 
     <footer>

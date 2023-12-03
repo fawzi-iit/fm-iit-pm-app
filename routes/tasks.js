@@ -32,14 +32,17 @@ router.get('/tasks', async (req, res) => {
     }
 });
 
+router.get('/tasks/create', (req, res) => {
+    const projectId = req.query.projectId;
+    res.render('createTask', { projectId });
+});
+
 // POST route to create a new task
 router.post('/', async (req, res) => {
     const task = new Task({
-        // Assuming your Task model has fields like title, description, projectId, etc.
         title: req.body.title,
         description: req.body.description,
         projectId: req.body.projectId,
-        // ... other fields ...
     });
 
     try {
@@ -76,6 +79,5 @@ router.patch('/tasks/:id', async (req, res) => {
         res.status(500).send(err);
     }
 });
-
 
 module.exports = router;

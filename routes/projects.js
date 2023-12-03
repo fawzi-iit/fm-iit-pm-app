@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const project = new Project({
         name: req.body.name,
-        description: req.body.description
+        description: req.body.description,
     });
 
     try {

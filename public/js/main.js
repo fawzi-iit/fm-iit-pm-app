@@ -19,6 +19,14 @@ document.addEventListener('DOMContentLoaded', function() {
         showCreateProjectForm();
     });
 
+    
+    // Event listener for the 'Create Task' link
+    const createTaskLink = document.getElementById('createTaskLink');
+    createTaskLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        showCreateTaskForm();
+    });
+    
     document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
         element.addEventListener('change', (event) => {
             const taskId = event.target.dataset.taskId;
@@ -99,6 +107,7 @@ function loadProjects() {
                 projectDiv.innerHTML = `
                     <h2><a href="#" data-projectid="${project._id}" class="project-link">${project.name}</a></h2>
                     <p>${project.description}</p>
+                    <p>${project.status}</p>
                 `;
                 projectsContainer.appendChild(projectDiv);
             });
@@ -182,6 +191,7 @@ function showBackButton() {
     backButton.onclick = function() {
         loadProjects();
         hideCreateTaskForm();
+        hideCreateProjectForm();
     };
     projectsContainer.insertBefore(backButton, projectsContainer.firstChild);
 }

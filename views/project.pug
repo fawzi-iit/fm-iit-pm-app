@@ -9,7 +9,7 @@ block content
   h2 Tasks
   ul
     each task in project.tasks
-      li #{task.name} - #{task.status}
+      li #{task.title} - #{task.status}
 
   // Updated "Create Task" button
   a(href=`/tasks/create?projectId=${project._id}`).button-like Create Task
