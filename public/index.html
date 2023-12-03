@@ -28,7 +28,9 @@
     <div id="createTaskForm" class="hidden">
         <input type="text" id="newTaskTitle" placeholder="Task Title">
         <textarea id="newTaskDescription" placeholder="Task Description"></textarea>
-        <button onclick="createTask()">Create Task</button>    </div>
+        <input type="hidden" id="projectIdField">
+        <button onclick="createTask()">Create Task</button>    
+    </div>
     
         <!-- Projects and Tasks Display Area -->
     <div id="projects" class="main"></div>

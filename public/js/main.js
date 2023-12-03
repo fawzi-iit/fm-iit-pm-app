@@ -82,6 +82,12 @@ function createTask() {
     const description = document.getElementById('newTaskDescription').value;
     const projectId = document.getElementById('projectIdField').value;
 
+    // Log the data being sent to the server
+    console.log("Creating task with the following data:");
+    console.log("Title:", title);
+    console.log("Description:", description);
+    console.log("Project ID:", projectId);
+
     fetch(`/tasks`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -121,6 +127,7 @@ function attachProjectClickHandlers() {
     document.querySelectorAll('.project-link').forEach(projectLink => {
         projectLink.addEventListener('click', function(event) {
             event.preventDefault();
+            console.log("Clicked project ID:", this.getAttribute('data-projectid'));
             currentProjectId = this.getAttribute('data-projectid');
             fetchTasksForProject(currentProjectId);
             showCreateTaskForm();

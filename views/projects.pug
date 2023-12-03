@@ -5,6 +5,6 @@ block content
   ul
     each project in projects
       li
-        a(href=`/projects/${project._id}`) #{project.name}
+        a(href=`/projects/${project._id}`, data-projectid=project._id) #{project.name}
         p #{project.description}
   a(href="/projects/new") Add New Project
