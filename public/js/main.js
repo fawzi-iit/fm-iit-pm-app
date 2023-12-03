@@ -90,6 +90,19 @@ document.addEventListener('DOMContentLoaded', function() {
     updateForms.forEach(form => form.addEventListener('submit', handleTaskUpdate));
     console.log("Event listener triggered for task update");
 });
+
+// Attach event listeners to delete buttons
+const deleteButtons = document.querySelectorAll('.delete-task-button'); // Adjust the selector as needed
+deleteButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();
+        const taskId = this.getAttribute('data-task-id'); // Ensure you have a data attribute for task ID
+        if (confirm("Are you sure you want to delete this task?")) {
+            deleteTask(taskId);
+        }
+    });
+});
+
 });
 
 // Add event listener for the 'Show Create Task' button
@@ -100,6 +113,21 @@ document.addEventListener('DOMContentLoaded', function() {
             showCreateTaskForm();
         });
     }
+
+// Function to handle task deletion
+function deleteTask(taskId) {
+    fetch(`/tasks/${taskId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        // Handle successful deletion here, like removing the task from the DOM
+        console.log("Task deleted:", taskId);
+    })
+    .catch(error => console.error('Error:', error));
+}
 
 function createProject() {
     const name = document.getElementById('newProjectName').value;

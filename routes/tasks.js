@@ -97,4 +97,21 @@ router.patch('/tasks/:id', async (req, res) => {
     }
 });
 
+// DELETE route to delete a task
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const task = await Task.findByIdAndDelete(id);
+
+        if (!task) {
+            return res.status(404).send('Task not found');
+        }
+
+        res.status(200).send('Task deleted successfully');
+    } catch (error) {
+        console.error('Error deleting task:', error);
+        res.status(500).send('Error deleting task: ' + error.message);
+    }
+});
+
 module.exports = router;

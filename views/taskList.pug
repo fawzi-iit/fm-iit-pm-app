@@ -10,6 +10,8 @@ block content
                     | - Assignee: #{task.assignee.name}
                 else
                     | - Assignee: Not Assigned
+                // Delete button
+                button(onclick="confirmDelete(#{task.id})") X
 form(method="POST" action="/tasks/update-task")
     select(name="status")
         option(value="Not Started") Not Started
@@ -21,3 +23,10 @@ form(method="POST" action="/tasks/update-task")
         option(value="Medium") Medium
         option(value="Low") Low
     input(type="submit" value="Update Task")
+script.
+    function confirmDelete(taskId) {
+        if (confirm("Are you sure you want to delete this task?")) {
+            // Code to handle task deletion
+            // You might need to make an AJAX call or submit a form to your server
+        }
+    }
