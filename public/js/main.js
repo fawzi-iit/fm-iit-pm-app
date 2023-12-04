@@ -228,18 +228,34 @@ function loadTasks() {
     fetch('/tasks')
         .then(response => response.json())
         .then(tasks => {
-            const tasksContainer = document.getElementById('tasks'); // Ensure this ID matches in tasks.html
+            const tasksContainer = document.getElementById('tasks');
             tasksContainer.innerHTML = '';
 
             tasks.forEach(task => {
-                const taskDiv = document.createElement('div');
-                taskDiv.className = 'task';
-                taskDiv.innerHTML = `
-                    <h3>${task.title}</h3>
-                    <p>${task.description}</p>
-                    <!-- Add more task details as needed -->
-                `;
-                tasksContainer.appendChild(taskDiv);
+                fetch(`/projects/${task.projectId}`)  // Fetch project details
+                    .then(response => response.json())
+                    .then(project => {
+                        const taskDiv = document.createElement('div');
+                        taskDiv.className = 'task';
+                        taskDiv.innerHTML = `
+                            <h3>${task.title}</h3>
+                            <p>${task.description}</p>
+							<p><strong>Project:</strong> ${project.name}</p>
+							<p>Priority: <select class="task-priority" data-task-id="${task._id}">
+								<option value="High" ${task.priority === 'High' ? 'selected' : ''}>High</option>
+								<option value="Medium" ${task.priority === 'Medium' ? 'selected' : ''}>Medium</option>
+								<option value="Low" ${task.priority === 'Low' ? 'selected' : ''}>Low</option>
+                    </select></p>
+                    <p>Status: <select class="task-status" data-task-id="${task._id}">
+								<option value="Not Started" ${task.status === 'Not Started' ? 'selected' : ''}>Not Started</option>
+								<option value="In Progress" ${task.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+								<option value="Completed" ${task.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                        </select></p>
+                        <p>Progress: <input type="range" class="task-progress" data-task-id="${task._id}" value="${task.progress}" min="0" max="100"></p>
+                        `;
+                        tasksContainer.appendChild(taskDiv);
+                    })
+                    .catch(error => console.error('Error fetching project:', error));
             });
         })
         .catch(error => console.error('Error:', error));
