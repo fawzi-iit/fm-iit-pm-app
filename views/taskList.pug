@@ -11,7 +11,7 @@ block content
                 else
                     | - Assignee: Not Assigned
                 // Delete button
-                button(onclick="confirmDelete(#{task.id})") X
+                button.delete-button(onclick="confirmDelete(#{task.id})") X
 form(method="POST" action="/tasks/update-task")
     select(name="status")
         option(value="Not Started") Not Started

@@ -10,6 +10,8 @@ block content
   ul
     each task in project.tasks
       li #{task.title} - #{task.status}
+      // Add delete button
+      button.delete-button(onclick="confirmDelete('#{task._id}')") X
 
   // "Create Task" button
   //a(href=`/tasks/create?projectId=${project._id}`).button-like Create Task

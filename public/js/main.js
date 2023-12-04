@@ -114,6 +114,13 @@ deleteButtons.forEach(button => {
         });
     }
 
+// Function to confirm and delete a task
+function confirmDelete(taskId) {
+    if (confirm("Are you sure you want to delete this task?")) {
+        deleteTask(taskId);
+    }
+}
+
 // Function to handle task deletion
 function deleteTask(taskId) {
     fetch(`/tasks/${taskId}`, {

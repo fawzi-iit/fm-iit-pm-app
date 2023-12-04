@@ -27,9 +27,28 @@ block content
           else
             | Assignee: Not assigned
         br
-        form(action=`/tasks/${task._id}/update` method="post")
-          // Add form fields for updating task details
-          button Update Task
-        form(action=`/tasks/${task._id}/delete` method="post")
-          button Delete Task
+        // Replace the form with a delete button
+        button.delete-button(onclick="confirmDelete('#{task._id}')") Delete Task
   a(href=`/projects/${project._id}/tasks/new`) Add New Task
+
+script.
+  function confirmDelete(taskId) {
+    if (confirm("Are you sure you want to delete this task?")) {
+      deleteTask(taskId);
+    }
+  }
+
+  function deleteTask(taskId) {
+    fetch(`/tasks/${taskId}`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      // Optionally, remove the task from the DOM or refresh the task list
+      console.log("Task deleted:", taskId);
+      // Example: document.querySelector(`#task-${taskId}`).remove();
+    })
+    .catch(error => console.error('Error:', error));
+  }
