@@ -92,6 +92,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Event listener for navigating to the tasks page
+const tasksPageButton = document.getElementById('tasksPageButton'); // Replace with your actual button ID
+if (tasksPageButton) {
+    tasksPageButton.addEventListener('click', function() {
+        window.location.href = '/tasks.html';
+    });
+}
+
 // Add event listener for task update form
 document.addEventListener('DOMContentLoaded', function() {
     const updateForms = document.querySelectorAll('.task-update-form'); // Adjust selector as needed
