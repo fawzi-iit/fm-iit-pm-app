@@ -84,6 +84,14 @@ function handleTaskUpdate(e) {
     });
 }
 
+// Add event listener for Project List Button
+document.addEventListener('DOMContentLoaded', function() {
+    const projectListButton = document.getElementById('projectListButton');
+    projectListButton.addEventListener('click', function() {
+        window.location.href = '/projects.html'; // Update the path if necessary
+    });
+});
+
 // Add event listener for task update form
 document.addEventListener('DOMContentLoaded', function() {
     const updateForms = document.querySelectorAll('.task-update-form'); // Adjust selector as needed
