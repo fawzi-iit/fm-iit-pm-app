@@ -3,7 +3,10 @@ let currentProjectId = null;
 document.addEventListener('DOMContentLoaded', function() {
     loadProjects();
     hideCreateTaskForm();
-
+    if (window.location.pathname.endsWith('tasks.html')) {
+        loadTasks();
+    }
+});
     // Event listener for the 'Project Dashboard' link
     const dashboardLink = document.getElementById('dashboardLink');
     dashboardLink.addEventListener('click', function(event) {
@@ -93,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Event listener for navigating to the tasks page
+document.addEventListener('DOMContentLoaded', function() {
 const tasksPageButton = document.getElementById('tasksPageButton');
 if (tasksPageButton) {
     tasksPageButton.addEventListener('click', function() {
