@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Event listener for navigating to the tasks page
-const tasksPageButton = document.getElementById('tasksPageButton'); // Replace with your actual button ID
+const tasksPageButton = document.getElementById('tasksPageButton');
 if (tasksPageButton) {
     tasksPageButton.addEventListener('click', function() {
         window.location.href = '/tasks.html';
@@ -216,6 +216,27 @@ function loadProjects() {
             });
 
             attachProjectClickHandlers();
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function loadTasks() {
+    fetch('/tasks')
+        .then(response => response.json())
+        .then(tasks => {
+            const tasksContainer = document.getElementById('tasks'); // Ensure this ID matches in tasks.html
+            tasksContainer.innerHTML = '';
+
+            tasks.forEach(task => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'task';
+                taskDiv.innerHTML = `
+                    <h3>${task.title}</h3>
+                    <p>${task.description}</p>
+                    <!-- Add more task details as needed -->
+                `;
+                tasksContainer.appendChild(taskDiv);
+            });
         })
         .catch(error => console.error('Error:', error));
 }
