@@ -275,7 +275,7 @@ function attachProjectClickHandlers() {
             event.preventDefault();
             const projectId = this.getAttribute('data-projectid');
             currentProjectId = projectId; // Store the selected project ID
-            showCreateTaskForm(projectId); // Pass projectId to the function
+            // showCreateTaskForm(projectId); // Pass projectId to the function
             document.getElementById('showCreateTaskFormButton').disabled = false; // Enable the button
             console.log("Clicked project ID:", projectId);
             fetchTasksForProject(projectId);
