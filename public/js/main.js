@@ -132,13 +132,13 @@ deleteButtons.forEach(button => {
 });
 
 // Event listener for the 'Show Create Task' button
-const showCreateTaskFormButton = document.getElementById('showCreateTaskFormButton');
-showCreateTaskFormButton.addEventListener('click', function() {
-    if (currentProjectId) {
-        document.getElementById('projectIdField').value = currentProjectId;
-        document.getElementById('createTaskForm').classList.remove('hidden');
-        }
-    });
+// const showCreateTaskFormButton = document.getElementById('showCreateTaskFormButton');
+// showCreateTaskFormButton.addEventListener('click', function() {
+//    if (currentProjectId) {
+//        document.getElementById('projectIdField').value = currentProjectId;
+//        document.getElementById('createTaskForm').classList.remove('hidden');
+//        }
+//    });
 
 // Function to confirm and delete a task
 function confirmDelete(taskId) {
@@ -274,10 +274,11 @@ function attachProjectClickHandlers() {
         projectLink.addEventListener('click', function(event) {
             event.preventDefault();
             const projectId = this.getAttribute('data-projectid');
+            currentProjectId = projectId; // Store the selected project ID
+            showCreateTaskForm(projectId); // Pass projectId to the function
             document.getElementById('showCreateTaskFormButton').disabled = false; // Enable the button
             console.log("Clicked project ID:", projectId);
             fetchTasksForProject(projectId);
-            //showCreateTaskForm(projectId); // Pass projectId to the function
             showBackButton();
         });
     });
@@ -340,11 +341,8 @@ function hideCreateTaskForm() {
     const form = document.getElementById('createTaskForm');
     if (form) {
         form.classList.add('hidden');
-    } else {
-        console.error("Create task form not found"); // Error log if form is not found
-    }
-}
-
+            }
+        }
 
 function showBackButton() {
     const projectsContainer = document.getElementById('projects');
