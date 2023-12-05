@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
         hideCreateProjectForm();
         hideCreateTaskForm();
     });
+    
+    // Listener for Create Project Button (Form)
+    const showCreateProjectFormButton = document.getElementById('showCreateProjectFormButton');
+    showCreateProjectFormButton.addEventListener('click', function() {
+        document.getElementById('createProjectForm').classList.remove('hidden');
+    });
 
 document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
     console.log("Attaching event listener to:", element);
@@ -159,6 +165,7 @@ function deleteTask(taskId) {
 function createProject() {
     const name = document.getElementById('newProjectName').value;
     const description = document.getElementById('newProjectDescription').value;
+    document.getElementById('createProjectForm').classList.add('hidden');
 
     fetch('/projects', {
         method: 'POST',
