@@ -219,15 +219,28 @@ function loadProjects() {
             projects.forEach(project => {
                 const projectDiv = document.createElement('div');
                 projectDiv.className = 'project';
-                projectDiv.innerHTML = `
-                    <h2><a href="#" data-projectid="${project._id}" class="project-link">${project.name}</a></h2>
-                    <p>${project.description}</p>
-                    <p>${project.status}</p>
-                `;
+
+                // Check if the current page is index.html
+                if (window.location.pathname.endsWith('index.html')) {
+                    projectDiv.innerHTML = `
+                        <h2><strong>${project.name}</strong></h2>
+                        <p>${project.description}</p>
+                        <p>${project.status}</p>
+                    `;
+                } else {
+                    // For projects.html or any other page
+                    projectDiv.innerHTML = `
+                        <h2><a href="#" data-projectid="${project._id}" class="project-link">${project.name}</a></h2>
+                        <p>${project.description}</p>
+                        <p>${project.status}</p>
+                    `;
+                }
                 projectsContainer.appendChild(projectDiv);
             });
 
-            attachProjectClickHandlers();
+            if (!window.location.pathname.endsWith('index.html')) {
+                attachProjectClickHandlers();
+            }
         })
         .catch(error => console.error('Error:', error));
 }
