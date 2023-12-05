@@ -39,7 +39,6 @@ function loadProjectsForProjectsPage() {
                 `;
                 projectsContainer.appendChild(projectDiv);
             });
-
             attachProjectClickHandlers();
         })
         .catch(error => console.error('Error:', error));
@@ -140,10 +139,15 @@ function handleTaskUpdate(e) {
 // Event listener for Project List Button
 document.addEventListener('DOMContentLoaded', function() {
     const projectListButton = document.getElementById('projectListButton');
-    projectListButton.addEventListener('click', function() {
-        window.location.href = '/projects.html'; // Update the path if necessary
-    });
+    if (projectListButton) {
+        projectListButton.addEventListener('click', function() {
+            window.location.href = '/projects.html'; // Update the path if necessary
+        });
+    } else {
+        console.log('Project List Button not found');
+    }
 });
+
 
 // Event listener for navigating to the tasks page
 document.addEventListener('DOMContentLoaded', function() {
@@ -313,6 +317,7 @@ function loadTasks() {
 }
 
 function attachProjectClickHandlers() {
+    console.log("Attaching project click handlers");
     document.querySelectorAll('.project-link').forEach(projectLink => {
         projectLink.addEventListener('click', function(event) {
             event.preventDefault();
