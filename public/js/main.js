@@ -266,6 +266,11 @@ function loadProjects() {
                 `;
                 projectsContainer.appendChild(projectDiv);
             });
+            // Show the 'Create Project' button again
+            const createProjectButton = document.getElementById('showCreateProjectFormButton');
+            if (createProjectButton) {
+                createProjectButton.style.display = 'block';
+            }
         })
         .catch(error => console.error('Error:', error));
 }
@@ -312,20 +317,30 @@ function attachProjectClickHandlers() {
         projectLink.addEventListener('click', function(event) {
             event.preventDefault();
             const projectId = this.getAttribute('data-projectid');
-            const projectName = this.textContent; // Get the project name from the link text
 
             // Update the header with the project name
             const headerElement = document.getElementById('projectHeader');
             if (headerElement) {
-                headerElement.textContent = projectName;
+                headerElement.textContent = this.textContent; // Project name from the link text
             }
 
-            currentProjectId = projectId; // Store the selected project ID
-            document.getElementById('showCreateTaskFormButton').disabled = false; // Enable the button
+            // Store the selected project ID and enable the 'Create Task' button
+            currentProjectId = projectId;
+            document.getElementById('showCreateTaskFormButton').disabled = false;
+
+            // Fetch and display tasks for the selected project
             fetchTasksForProject(projectId);
+
+            // Show the 'Project List' button
             const projectListButton = document.getElementById('projectListButton');
             if (projectListButton) {
                 projectListButton.style.display = 'block';
+            }
+
+            // Hide the 'Create Project' button
+            const createProjectButton = document.getElementById('showCreateProjectFormButton');
+            if (createProjectButton) {
+                createProjectButton.style.display = 'none';
             }
         });
     });
