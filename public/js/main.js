@@ -327,7 +327,6 @@ function attachProjectClickHandlers() {
             document.getElementById('showCreateTaskFormButton').disabled = false; // Enable the button
             console.log("Clicked project ID:", projectId);
             fetchTasksForProject(projectId);
-            showBackButton();
         });
     });
 }
@@ -338,12 +337,6 @@ function fetchTasksForProject(projectId) {
         .then(tasks => {
             const projectsContainer = document.getElementById('projects');
             projectsContainer.innerHTML = '';
-
-            // Add a 'Back' button
-            const backButton = document.createElement('button');
-            backButton.textContent = 'Back to Projects';
-            backButton.onclick = loadProjects; // Load projects when clicked
-            projectsContainer.appendChild(backButton);
 
             // Display tasks for the selected project
             tasks.forEach(task => {
@@ -391,15 +384,3 @@ function hideCreateTaskForm() {
         form.classList.add('hidden');
             }
         }
-
-function showBackButton() {
-    const projectsContainer = document.getElementById('projects');
-    const backButton = document.createElement('button');
-    backButton.textContent = 'Back to Projects';
-    backButton.onclick = function() {
-        loadProjects();
-        hideCreateTaskForm();
-        hideCreateProjectForm();
-    };
-    projectsContainer.insertBefore(backButton, projectsContainer.firstChild);
-}
