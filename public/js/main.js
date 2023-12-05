@@ -1,26 +1,67 @@
 let currentProjectId = null;
 
 document.addEventListener('DOMContentLoaded', function() {
-    loadProjects();
-    hideCreateTaskForm();
-    if (window.location.pathname.endsWith('tasks.html')) {
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+        loadProjects();
+    } else if (window.location.pathname.includes('projects.html')) {
+        loadProjectsForProjectsPage();
+    } else if (window.location.pathname.includes('tasks.html')) {
         loadTasks();
     }
 });
+
+
+// New functions Dec 5th 11:50
+function loadProjectsForIndex() {
+    // Logic to load projects specifically for index.html
+    // Use existing logic from loadProjects but adapt for index.html
+}
+
+function loadProjectsForProjectsPage() {
+    // Logic to load projects specifically for projects.html
+    // Use existing logic from loadProjects but adapt for projects.html
+}
+
+function loadProjectsForProjectsPage() {
+    fetch('/projects')
+        .then(response => response.json())
+        .then(projects => {
+            const projectsContainer = document.getElementById('projects');
+            projectsContainer.innerHTML = '';
+
+            projects.forEach(project => {
+                const projectDiv = document.createElement('div');
+                projectDiv.className = 'project';
+                projectDiv.innerHTML = `
+                    <h2>${project.name}</h2>
+                    <p>${project.description}</p>
+                    <p>${project.status}</p>
+                `;
+                projectsContainer.appendChild(projectDiv);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// End of New functions Dec 5th 11:50
+
     // Event listener for the 'Project Dashboard' link
     const dashboardLink = document.getElementById('dashboardLink');
-    dashboardLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        loadProjects();
-        hideCreateProjectForm();
-        hideCreateTaskForm();
-    });
+    if (dashboardLink) {
+        dashboardLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            loadProjects();
+            hideCreateProjectForm();
+            hideCreateTaskForm();
+        });
+    }
     
-    // Listener for Create Project Button (Form)
     const showCreateProjectFormButton = document.getElementById('showCreateProjectFormButton');
-    showCreateProjectFormButton.addEventListener('click', function() {
-        document.getElementById('createProjectForm').classList.remove('hidden');
-    });
+    if (showCreateProjectFormButton) {
+        showCreateProjectFormButton.addEventListener('click', function() {
+            document.getElementById('createProjectForm').classList.remove('hidden');
+        });
+    }
 
 document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
     console.log("Attaching event listener to:", element);
@@ -219,31 +260,17 @@ function loadProjects() {
             projects.forEach(project => {
                 const projectDiv = document.createElement('div');
                 projectDiv.className = 'project';
-
-                // Check if the current page is index.html
-                if (window.location.pathname.endsWith('index.html')) {
-                    projectDiv.innerHTML = `
-                        <h2><strong>${project.name}</strong></h2>
-                        <p>${project.description}</p>
-                        <p>${project.status}</p>
-                    `;
-                } else {
-                    // For projects.html or any other page
-                    projectDiv.innerHTML = `
-                        <h2><a href="#" data-projectid="${project._id}" class="project-link">${project.name}</a></h2>
-                        <p>${project.description}</p>
-                        <p>${project.status}</p>
-                    `;
-                }
+                projectDiv.innerHTML = `
+                    <h2>${project.name}</h2>
+                    <p>${project.description}</p>
+                    <p>${project.status}</p>
+                `;
                 projectsContainer.appendChild(projectDiv);
             });
-
-            if (!window.location.pathname.endsWith('index.html')) {
-                attachProjectClickHandlers();
-            }
         })
         .catch(error => console.error('Error:', error));
 }
+
 
 function loadTasks() {
     fetch('/tasks')
