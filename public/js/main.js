@@ -183,6 +183,7 @@ function createTask() {
     const title = document.getElementById('newTaskTitle').value;
     const description = document.getElementById('newTaskDescription').value;
     const projectId = document.getElementById('projectIdField').value;
+    document.getElementById('createTaskForm').classList.add('hidden');
     
     // Log the data being sent to the server
     console.log("Creating task with the following data:");
@@ -275,7 +276,7 @@ function attachProjectClickHandlers() {
             const projectId = this.getAttribute('data-projectid');
             console.log("Clicked project ID:", projectId);
             fetchTasksForProject(projectId);
-            showCreateTaskForm(projectId); // Pass projectId to the function
+            //showCreateTaskForm(projectId); // Pass projectId to the function
             showBackButton();
         });
     });
