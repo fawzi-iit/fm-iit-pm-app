@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
 // New functions Dec 5th 11:50
 function loadProjectsForIndex() {
     // Logic to load projects specifically for index.html
@@ -43,8 +42,6 @@ function loadProjectsForProjectsPage() {
         })
         .catch(error => console.error('Error:', error));
 }
-
-
 // End of New functions Dec 5th 11:50
 
     // Event listener for the 'Project Dashboard' link
@@ -111,7 +108,7 @@ document.querySelectorAll('.task-priority, .task-status, .task-progress').forEac
 function handleTaskUpdate(e) {
     e.preventDefault();
 
-    const taskId = this.getAttribute('data-task-id'); // Adjust as needed
+    const taskId = this.getAttribute('data-task-id');
     const formData = new FormData(this);
     const data = {
         status: formData.get('status'),
@@ -148,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
 // Event listener for navigating to the tasks page
 document.addEventListener('DOMContentLoaded', function() {
 const tasksPageButton = document.getElementById('tasksPageButton');
@@ -178,15 +174,6 @@ deleteButtons.forEach(button => {
 });
 
 });
-
-// Event listener for the 'Show Create Task' button
-// const showCreateTaskFormButton = document.getElementById('showCreateTaskFormButton');
-// showCreateTaskFormButton.addEventListener('click', function() {
-//    if (currentProjectId) {
-//        document.getElementById('projectIdField').value = currentProjectId;
-//        document.getElementById('createTaskForm').classList.remove('hidden');
-//        }
-//    });
 
 // Function to confirm and delete a task
 function confirmDelete(taskId) {
@@ -277,7 +264,6 @@ function loadProjects() {
         })
         .catch(error => console.error('Error:', error));
 }
-
 
 function loadTasks() {
     fetch('/tasks')
