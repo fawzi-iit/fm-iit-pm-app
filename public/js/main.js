@@ -303,15 +303,20 @@ function loadTasks() {
 }
 
 function attachProjectClickHandlers() {
-    console.log("Attaching project click handlers");
     document.querySelectorAll('.project-link').forEach(projectLink => {
         projectLink.addEventListener('click', function(event) {
             event.preventDefault();
             const projectId = this.getAttribute('data-projectid');
+            const projectName = this.textContent; // Get the project name from the link text
+
+            // Update the header with the project name
+            const headerElement = document.getElementById('projectHeader');
+            if (headerElement) {
+                headerElement.textContent = projectName;
+            }
+
             currentProjectId = projectId; // Store the selected project ID
-            // showCreateTaskForm(projectId); // Pass projectId to the function
             document.getElementById('showCreateTaskFormButton').disabled = false; // Enable the button
-            console.log("Clicked project ID:", projectId);
             fetchTasksForProject(projectId);
         });
     });
