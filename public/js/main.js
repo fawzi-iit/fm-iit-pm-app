@@ -38,6 +38,11 @@ function loadProjectsForProjectsPage() {
                 `;
                 projectsContainer.appendChild(projectDiv);
             });
+            // Hide the 'Project List' button
+            const projectListButton = document.getElementById('projectListButton');
+            if (projectListButton) {
+                projectListButton.style.display = 'none';
+            }
             attachProjectClickHandlers();
         })
         .catch(error => console.error('Error:', error));
@@ -318,6 +323,10 @@ function attachProjectClickHandlers() {
             currentProjectId = projectId; // Store the selected project ID
             document.getElementById('showCreateTaskFormButton').disabled = false; // Enable the button
             fetchTasksForProject(projectId);
+            const projectListButton = document.getElementById('projectListButton');
+            if (projectListButton) {
+                projectListButton.style.display = 'block';
+            }
         });
     });
 }
