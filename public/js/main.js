@@ -93,7 +93,7 @@ function handleTaskUpdate(e) {
     });
 }
 
-// Add event listener for Project List Button
+// Event listener for Project List Button
 document.addEventListener('DOMContentLoaded', function() {
     const projectListButton = document.getElementById('projectListButton');
     projectListButton.addEventListener('click', function() {
@@ -131,14 +131,14 @@ deleteButtons.forEach(button => {
 
 });
 
-// Add event listener for the 'Show Create Task' button
-    const showCreateTaskButton = document.getElementById('showCreateTaskButton');
-    if (showCreateTaskButton) {
-        showCreateTaskButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            showCreateTaskForm();
-        });
-    }
+// Event listener for the 'Show Create Task' button
+const showCreateTaskFormButton = document.getElementById('showCreateTaskFormButton');
+showCreateTaskFormButton.addEventListener('click', function() {
+    if (currentProjectId) {
+        document.getElementById('projectIdField').value = currentProjectId;
+        document.getElementById('createTaskForm').classList.remove('hidden');
+        }
+    });
 
 // Function to confirm and delete a task
 function confirmDelete(taskId) {
@@ -274,6 +274,7 @@ function attachProjectClickHandlers() {
         projectLink.addEventListener('click', function(event) {
             event.preventDefault();
             const projectId = this.getAttribute('data-projectid');
+            document.getElementById('showCreateTaskFormButton').disabled = false; // Enable the button
             console.log("Clicked project ID:", projectId);
             fetchTasksForProject(projectId);
             //showCreateTaskForm(projectId); // Pass projectId to the function
@@ -336,7 +337,6 @@ function showCreateTaskForm(projectId) {
 }
 
 function hideCreateTaskForm() {
-    console.log("Hiding create task form"); // Debugging log
     const form = document.getElementById('createTaskForm');
     if (form) {
         form.classList.add('hidden');
