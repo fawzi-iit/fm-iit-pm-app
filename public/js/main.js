@@ -33,15 +33,18 @@ function loadProjectsForProjectsPage() {
                 const projectDiv = document.createElement('div');
                 projectDiv.className = 'project';
                 projectDiv.innerHTML = `
-                    <h2>${project.name}</h2>
+                    <h2><a href="#" data-projectid="${project._id}" class="project-link">${project.name}</a></h2>
                     <p>${project.description}</p>
                     <p>${project.status}</p>
                 `;
                 projectsContainer.appendChild(projectDiv);
             });
+
+            attachProjectClickHandlers();
         })
         .catch(error => console.error('Error:', error));
 }
+
 
 // End of New functions Dec 5th 11:50
 
