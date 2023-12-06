@@ -140,43 +140,62 @@ function loadProjectsForProjectsPage() {
         });
     }
 
-    document.getElementById('tasks').addEventListener('change', async (event) => {
-        if (event.target.matches('.task-priority, .task-status, .task-progress')) {
-            const taskId = event.target.dataset.taskId;
-            let propertyName = '';
-            if (event.target.classList.contains('task-priority')) {
-                propertyName = 'priority';
-            } else if (event.target.classList.contains('task-status')) {
-                propertyName = 'status';
-            } else if (event.target.classList.contains('task-progress')) {
-                propertyName = 'progress';
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Determine the current page
+        const currentPage = window.location.pathname;
     
-            const updatedValue = { [propertyName]: event.target.value };
-    
-            console.log(`Updating task ${taskId} - Property: ${propertyName}, Value: ${event.target.value}`);
-    
-            try {
-                const response = await fetch(`/tasks/${taskId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(updatedValue),
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-    
-                console.log("Response:", await response.json());
-            } catch (error) {
-                console.error('Fetch error:', error);
-            }
+        // Attach the event listener based on the current page
+        if (currentPage.includes('projects.html')) {
+            attachEventListener('projects');
+        } else if (currentPage.includes('tasks.html')) {
+            attachEventListener('tasks');
         }
     });
     
-
+    function attachEventListener(containerId) {
+        const container = document.getElementById(containerId);
+        if (container) {
+            container.addEventListener('change', async (event) => {
+                if (event.target.matches('.task-priority, .task-status, .task-progress')) {
+                    const taskId = event.target.dataset.taskId;
+                    let propertyName = '';
+                    if (event.target.classList.contains('task-priority')) {
+                        propertyName = 'priority';
+                    } else if (event.target.classList.contains('task-status')) {
+                        propertyName = 'status';
+                    } else if (event.target.classList.contains('task-progress')) {
+                        propertyName = 'progress';
+                    }
+    
+                    const updatedValue = { [propertyName]: event.target.value };
+    
+                    try {
+                        const response = await fetch(`/tasks/${taskId}`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(updatedValue),
+                        });
+    
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+    
+                        // Optionally, refresh the task list
+                        if (containerId === 'projects') {
+                            fetchTasksForProject(currentProjectId);
+                        } else {
+                            // Refresh logic for tasks.html, if needed
+                        }
+                    } catch (error) {
+                        console.error('Fetch error:', error);
+                    }
+                }
+            });
+        }
+    }
+    
 // New function to handle task updates
 function handleTaskUpdate(e) {
     e.preventDefault();
