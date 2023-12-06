@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (projectListButton) {
         console.log('Project List Button found');
         projectListButton.addEventListener('click', function() {
-            window.location.href = '/projects.html'; // Update the path if necessary
+            window.location.href = '/projects.html';
         });
     } else {
         console.log('Project List Button not found');
