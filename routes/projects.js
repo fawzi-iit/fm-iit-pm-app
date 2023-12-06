@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Project = require('../models/project'); // Adjust the path as necessary
+const Project = require('../models/project');
+const Task = require('../models/task');
 
 // GET route to list all projects
 router.get('/', async (req, res) => {
@@ -57,6 +58,7 @@ router.delete('/:id', async (req, res) => {
         await project.remove();
         res.status(200).send(`Project ${projectId} and related tasks deleted successfully`);
     } catch (error) {
+        console.error('Error deleting project:', error); // Enhanced error logging
         res.status(500).send('Error deleting project: ' + error.message);
     }
 });
