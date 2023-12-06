@@ -77,47 +77,42 @@ function loadProjectsForProjectsPage() {
         });
     }
 
-document.querySelectorAll('.task-priority, .task-status, .task-progress').forEach(element => {
-    console.log("Attaching event listener to:", element);
-    element.addEventListener('change', async (event) => {
-        const taskId = event.target.dataset.taskId;
-        let propertyName = '';
-        if (event.target.classList.contains('task-priority')) {
-            propertyName = 'priority';
-        } else if (event.target.classList.contains('task-status')) {
-            propertyName = 'status';
-        } else if (event.target.classList.contains('task-progress')) {
-            propertyName = 'progress';
-        }
-
-        const updatedValue = { [propertyName]: event.target.value };
-        
-
-        // Debugging: Log the data being sent
-        console.log("Updating task:", taskId, "Property:", propertyName, "Value:", event.target.value);
-
-        try {
-            const response = await fetch(`/tasks/${taskId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedValue),
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+    document.getElementById('tasks').addEventListener('change', async (event) => {
+        if (event.target.matches('.task-priority, .task-status, .task-progress')) {
+            const taskId = event.target.dataset.taskId;
+            let propertyName = '';
+            if (event.target.classList.contains('task-priority')) {
+                propertyName = 'priority';
+            } else if (event.target.classList.contains('task-status')) {
+                propertyName = 'status';
+            } else if (event.target.classList.contains('task-progress')) {
+                propertyName = 'progress';
             }
-
-            // Debugging: Log the response
-            console.log("Response:", response);
-
-            // Handle successful response here, if needed
-        } catch (error) {
-            console.error('Fetch error:', error);
+    
+            const updatedValue = { [propertyName]: event.target.value };
+    
+            console.log(`Updating task ${taskId} - Property: ${propertyName}, Value: ${event.target.value}`);
+    
+            try {
+                const response = await fetch(`/tasks/${taskId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedValue),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+    
+                console.log("Response:", await response.json());
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
         }
     });
-});
+    
 
 // New function to handle task updates
 function handleTaskUpdate(e) {

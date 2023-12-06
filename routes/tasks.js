@@ -70,7 +70,7 @@ router.put('/tasks/:id', async (req, res) => {
     }
 });
 
-router.patch('/tasks/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const update = {};
