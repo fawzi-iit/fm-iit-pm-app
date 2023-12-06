@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (window.location.pathname.includes('tasks.html')) {
         loadTasks();
     }
+    // Initialize the updated attachProjectClickHandlers function
+    attachProjectClickHandlers();
+
 });
 
 // New functions Dec 5th 11:50
@@ -347,15 +350,15 @@ function loadTasks() {
 }
 
 function attachProjectClickHandlers() {
-    document.querySelectorAll('.project-link').forEach(projectLink => {
-        projectLink.addEventListener('click', function(event) {
+    document.getElementById('projects').addEventListener('click', function(event) {
+        if (event.target && event.target.matches('.project-link')) {
             event.preventDefault();
-            const projectId = this.getAttribute('data-projectid');
+            const projectId = event.target.getAttribute('data-projectid');
 
             // Update the header with the project name
             const headerElement = document.getElementById('projectHeader');
             if (headerElement) {
-                headerElement.textContent = this.textContent; // Project name from the link text
+                headerElement.textContent = event.target.textContent; // Project name from the link text
             }
 
             // Store the selected project ID and enable the 'Create Task' button
@@ -389,7 +392,7 @@ function attachProjectClickHandlers() {
                 deleteProjectButton.style.display = 'block';
                 deleteProjectButton.setAttribute('data-projectid', projectId);
             }
-        });
+        }
     });
 }
 
