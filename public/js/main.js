@@ -41,7 +41,7 @@ function loadProjectsForProjectsPage() {
             // Hide the 'Project List' button
             const projectListBackButton = document.getElementById('projectListBackButton');
             if (projectListBackButton) {
-                projectListBackButton.style.display = 'block';
+                projectListBackButton.style.display = 'none';
 }
 
             attachProjectClickHandlers();
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (projectListBackButton) {
         console.log('Project List Back Button found');
         projectListBackButton.addEventListener('click', function() {
-            window.location.href = 'projects.html';
+            window.location.href = '/projects.html';
         });
     } else {
         console.log('Project List Back Button not found');
@@ -366,9 +366,9 @@ function attachProjectClickHandlers() {
             fetchTasksForProject(projectId);
 
             // Show the 'Project List' button
-            const projectListButton = document.getElementById('projectListButton');
-            if (projectListButton) {
-                projectListButton.style.display = 'block';
+            const projectListBackButton = document.getElementById('projectListBackButton');
+            if (projectListBackButton) {
+                projectListBackButton.style.display = 'block';
             }
 
             // Hide the 'Create Project' button
