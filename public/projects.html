@@ -23,6 +23,13 @@
         <textarea id="newProjectDescription" placeholder="Project Description"></textarea>
         <button onclick="createProject()">Create Project</button>
     </div>
+    <!-- Create Task Form -->
+    <div id="createTaskForm" class="hidden">
+        <input type="text" id="newTaskTitle" placeholder="Task Title">
+        <textarea id="newTaskDescription" placeholder="Task Description"></textarea>
+        <input type="hidden" id="projectIdField">
+        <button onclick="createTask()">Create Task</button>
+    </div>
     
     <div id="projects" class="main">
         <!-- Projects will be loaded here -->

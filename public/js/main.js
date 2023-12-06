@@ -49,6 +49,16 @@ function loadProjectsForProjectsPage() {
 }
 // End of New functions Dec 5th 11:50
 
+    // Event listener for Create Task Button
+    document.addEventListener('DOMContentLoaded', function() {
+        const createTaskButton = document.getElementById('showCreateTaskFormButton');
+        if (createTaskButton) {
+            createTaskButton.addEventListener('click', function() {
+                showCreateTaskForm(currentProjectId);
+            });
+        }
+    });
+
     // Event listener for the 'Project Dashboard' link
     const dashboardLink = document.getElementById('dashboardLink');
     if (dashboardLink) {
