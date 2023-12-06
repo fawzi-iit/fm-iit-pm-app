@@ -147,6 +147,7 @@ function handleTaskUpdate(e) {
 document.addEventListener('DOMContentLoaded', function() {
     const projectListButton = document.getElementById('projectListButton');
     if (projectListButton) {
+        console.log('Project List Button found');
         projectListButton.addEventListener('click', function() {
             window.location.href = '/projects.html'; // Update the path if necessary
         });
