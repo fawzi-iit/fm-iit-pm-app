@@ -8,9 +8,68 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (window.location.pathname.includes('tasks.html')) {
         loadTasks();
     }
-    // Initialize the updated attachProjectClickHandlers function
     attachProjectClickHandlers();
 
+    // New event delegation for project links and delete button
+    document.getElementById('projects').addEventListener('click', function(event) {
+        if (event.target && event.target.matches('.project-link')) {
+            event.preventDefault();
+            const projectId = event.target.getAttribute('data-projectid');
+
+            // Existing code to handle project link click
+            // Update the header with the project name
+            const headerElement = document.getElementById('projectHeader');
+            if (headerElement) {
+                headerElement.textContent = event.target.textContent; // Project name from the link text
+            }
+
+            // Store the selected project ID and enable the 'Create Task' button
+            currentProjectId = projectId;
+            document.getElementById('showCreateTaskFormButton').disabled = false;
+
+            // Fetch and display tasks for the selected project
+            fetchTasksForProject(projectId);
+
+            // Show the 'Project List' button
+            const projectListBackButton = document.getElementById('projectListBackButton');
+            if (projectListBackButton) {
+                projectListBackButton.style.display = 'block';
+            }
+
+            // Hide the 'Create Project' button
+            const createProjectButton = document.getElementById('showCreateProjectFormButton');
+            if (createProjectButton) {
+                createProjectButton.style.display = 'none';
+            }
+
+            // Hide The 'Create Task' button
+            const createTaskButton = document.getElementById('showCreateTaskFormButton');
+            if (createTaskButton) {
+                createTaskButton.style.display = 'block'; // Show the button
+            }
+
+            // Show the 'Delete Project' button
+            const deleteProjectButton = document.getElementById('deleteProjectButton');
+            if (deleteProjectButton) {
+                deleteProjectButton.style.display = 'block';
+                deleteProjectButton.setAttribute('data-projectid', projectId);
+            }
+        }
+    });
+
+    // Event delegation for delete project button
+    document.body.addEventListener('click', function(event) {
+        if (event.target.id === 'deleteProjectButton') {
+            const projectId = event.target.getAttribute('data-projectid');
+            console.log("Delete button clicked for project ID:", projectId);
+            if (confirm('Are you sure you want to delete the selected project and related tasks?')) {
+                deleteProject(projectId);
+            } else {
+                // Optionally, refresh the project list
+                loadProjects();
+            }
+        }
+    });
 });
 
 // New functions Dec 5th 11:50
