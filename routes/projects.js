@@ -40,23 +40,25 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+const mongoose = require('mongoose');
+
 // DELETE route to delete a project by ID
 router.delete('/:id', async (req, res) => {
     try {
-        const project = await Project.findById(req.params.id);
+        const projectId = mongoose.Types.ObjectId(req.params.id);
+        const project = await Project.findById(projectId);
         if (!project) {
             return res.status(404).send('Project not found');
         }
 
         // Delete related tasks
-        await Task.deleteMany({ projectId: req.params.id });
+        await Task.deleteMany({ projectId: projectId });
 
         await project.remove();
-        res.status(200).send(`Project ${req.params.id} and related tasks deleted successfully`);
+        res.status(200).send(`Project ${projectId} and related tasks deleted successfully`);
     } catch (error) {
         res.status(500).send('Error deleting project: ' + error.message);
     }
 });
-
 
 module.exports = router;
