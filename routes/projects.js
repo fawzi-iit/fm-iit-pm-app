@@ -40,4 +40,23 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// DELETE route to delete a project by ID
+router.delete('/:id', async (req, res) => {
+    try {
+        const project = await Project.findById(req.params.id);
+        if (!project) {
+            return res.status(404).send('Project not found');
+        }
+
+        // Delete related tasks
+        await Task.deleteMany({ projectId: req.params.id });
+
+        await project.remove();
+        res.status(200).send(`Project ${req.params.id} and related tasks deleted successfully`);
+    } catch (error) {
+        res.status(500).send('Error deleting project: ' + error.message);
+    }
+});
+
+
 module.exports = router;

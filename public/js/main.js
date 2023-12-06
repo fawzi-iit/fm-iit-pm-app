@@ -180,6 +180,33 @@ deleteButtons.forEach(button => {
 
 });
 
+// Event Listener for the Delete Button
+document.getElementById('deleteProjectButton').addEventListener('click', function() {
+    const projectId = this.getAttribute('data-projectid');
+    console.log("Delete button clicked for project ID:", projectId); // Log the project ID
+    if (confirm('Are you sure you want to delete the selected project and related tasks?')) {
+        deleteProject(projectId);
+    } else {
+        // Optionally, refresh the project list
+        loadProjects();
+    }
+});
+
+// Function to Delete Project
+function deleteProject(projectId) {
+    console.log("Attempting to delete project with ID:", projectId); // Log the project ID
+    fetch(`/projects/${projectId}`, { method: 'DELETE' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            console.log("Project deleted successfully:", projectId); // Log successful deletion
+            // Refresh the project list
+            loadProjects();
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 // Function to confirm and delete a task
 function confirmDelete(taskId) {
     if (confirm("Are you sure you want to delete this task?")) {
@@ -341,6 +368,12 @@ function attachProjectClickHandlers() {
             const createProjectButton = document.getElementById('showCreateProjectFormButton');
             if (createProjectButton) {
                 createProjectButton.style.display = 'none';
+            }
+            // Show the 'Delete Project' button
+            const deleteProjectButton = document.getElementById('deleteProjectButton');
+            if (deleteProjectButton) {
+                deleteProjectButton.style.display = 'block';
+                deleteProjectButton.setAttribute('data-projectid', projectId);
             }
         });
     });
