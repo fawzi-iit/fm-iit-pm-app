@@ -379,6 +379,13 @@ function attachProjectClickHandlers() {
             if (createProjectButton) {
                 createProjectButton.style.display = 'none';
             }
+
+            // Hide The 'Create Task' button
+            const createTaskButton = document.getElementById('showCreateTaskFormButton');
+            if (createTaskButton) {
+                createTaskButton.style.display = 'block'; // Show the button
+            }
+
             // Show the 'Delete Project' button
             const deleteProjectButton = document.getElementById('deleteProjectButton');
             if (deleteProjectButton) {
