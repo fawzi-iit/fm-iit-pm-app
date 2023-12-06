@@ -39,10 +39,11 @@ function loadProjectsForProjectsPage() {
                 projectsContainer.appendChild(projectDiv);
             });
             // Hide the 'Project List' button
-            const projectListButton = document.getElementById('projectListButton');
-            if (projectListButton) {
-                projectListButton.style.display = 'none';
-            }
+            const projectListBackButton = document.getElementById('projectListBackButton');
+            if (projectListBackButton) {
+                projectListBackButton.style.display = 'block';
+}
+
             attachProjectClickHandlers();
         })
         .catch(error => console.error('Error:', error));
@@ -145,14 +146,14 @@ function handleTaskUpdate(e) {
 
 // Event listener for Project List Button
 document.addEventListener('DOMContentLoaded', function() {
-    const projectListButton = document.getElementById('projectListButton');
-    if (projectListButton) {
-        console.log('Project List Button found');
-        projectListButton.addEventListener('click', function() {
-            window.location.href = '/projects.html';
+    const projectListBackButton  = document.getElementById('projectListBackButton');
+    if (projectListBackButton) {
+        console.log('Project List Back Button found');
+        projectListBackButton.addEventListener('click', function() {
+            window.location.href = 'projects.html';
         });
     } else {
-        console.log('Project List Button not found');
+        console.log('Project List Back Button not found');
     }
 });
 
