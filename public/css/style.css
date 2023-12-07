@@ -204,6 +204,19 @@ footer {
   background-color: #ff3333; /* Darker shade on hover */
 }
 
+/* Project card styling based on status */
+.project-status-active {
+  background-color: rgb(145, 218, 243);
+}
+
+.project-status-completed {
+  background-color: rgb(233, 178, 236);
+}
+
+.project-status-on-hold {
+  background-color: lightgray;
+}
+
 /* Media Queries for Responsive Design */
 @media (max-width: 700px) {
   .main {

@@ -392,21 +392,29 @@ function loadProjects() {
 
             projects.forEach(project => {
                 const projectDiv = document.createElement('div');
-                projectDiv.className = 'project';
+                projectDiv.className = 'project ' + getStatusClass(project.status);
                 projectDiv.innerHTML = `
                     <h2>${project.name}</h2>
                     <p>${project.description}</p>
-                    <p>${project.status}</p>
+                    <p>Status: ${project.status}</p>
                 `;
                 projectsContainer.appendChild(projectDiv);
             });
-            // Show the 'Create Project' button again
-            const createProjectButton = document.getElementById('showCreateProjectFormButton');
-            if (createProjectButton) {
-                createProjectButton.style.display = 'block';
-            }
         })
         .catch(error => console.error('Error:', error));
+}
+
+function getStatusClass(status) {
+    switch(status) {
+        case 'Active':
+            return 'project-status-active';
+        case 'Completed':
+            return 'project-status-completed';
+        case 'On Hold':
+            return 'project-status-on-hold';
+        default:
+            return '';
+    }
 }
 
 function loadTasks() {
