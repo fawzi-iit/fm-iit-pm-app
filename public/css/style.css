@@ -206,11 +206,11 @@ footer {
 
 /* Project card styling based on status */
 .project-status-active {
-  background-color: rgb(145, 218, 243);
+  background-color: rgb(177, 229, 246);
 }
 
 .project-status-completed {
-  background-color: rgb(233, 178, 236);
+  background-color: rgb(241, 208, 243);
 }
 
 .project-status-on-hold {
