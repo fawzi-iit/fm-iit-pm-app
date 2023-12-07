@@ -83,6 +83,7 @@ function loadProjectsForProjectsPage() {
     // Use existing logic from loadProjects but adapt for projects.html
 }
 
+// Start Updated 12/06 5:30PM
 function loadProjectsForProjectsPage() {
     fetch('/projects')
         .then(response => response.json())
@@ -96,20 +97,50 @@ function loadProjectsForProjectsPage() {
                 projectDiv.innerHTML = `
                     <h2><a href="#" data-projectid="${project._id}" class="project-link">${project.name}</a></h2>
                     <p>${project.description}</p>
-                    <p>${project.status}</p>
+                    <p>Status: 
+                        <select onchange="updateProjectStatus('${project._id}', this.value)">
+                            <option value="Active" ${project.status === 'Active' ? 'selected' : ''}>Active</option>
+                            <option value="Completed" ${project.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                            <option value="On Hold" ${project.status === 'On Hold' ? 'selected' : ''}>On Hold</option>
+                        </select>
+                    </p>
                 `;
                 projectsContainer.appendChild(projectDiv);
             });
+
             // Hide the 'Project List' button
             const projectListBackButton = document.getElementById('projectListBackButton');
             if (projectListBackButton) {
                 projectListBackButton.style.display = 'none';
-}
+            }
 
             attachProjectClickHandlers();
         })
         .catch(error => console.error('Error:', error));
 }
+
+function updateProjectStatus(projectId, newStatus) {
+    fetch(`/projects/${projectId}/status`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(updatedProject => {
+        console.log('Project status updated:', updatedProject);
+        // Optionally, refresh the project list or update the UI as needed
+    })
+    .catch(error => console.error('Error:', error));
+}
+// End Update 12/06 5:30PM
+
 // End of New functions Dec 5th 11:50
 
     // Event listener for Create Task Button

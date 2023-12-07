@@ -63,4 +63,19 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// PUT route to update a project's status
+router.put('/:id/status', async (req, res) => {
+    try {
+        const project = await Project.findById(req.params.id);
+        if (!project) {
+            return res.status(404).send('Project not found');
+        }
+        project.status = req.body.status;
+        await project.save();
+        res.status(200).json(project);
+    } catch (error) {
+        res.status(500).send('Error updating project status: ' + error.message);
+    }
+});
+
 module.exports = router;
