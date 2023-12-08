@@ -15,6 +15,18 @@ const app = express();
 const getConnectionInfo = require('./config/connection');
 getConnectionInfo();
 
+const { getConnectionInfo } = require('./config/connection');
+async function init() {
+  try {
+    await getConnectionInfo();
+  } catch (error) {
+    console.error('Failed to initialize application:', error);
+    process.exit(1); // Exit if initialization fails
+  }
+}
+
+init();
+
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
