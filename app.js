@@ -12,10 +12,11 @@ const tasksRouter = require('./routes/tasks');
 const app = express();
 
 // MongoDB connection
-const mongoDB = 'mongodb://localhost:27017/iitappdb';
+const connectDB = require('./config/connection');
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+connectDB();
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
