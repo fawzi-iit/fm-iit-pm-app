@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const { getSecret } = require("./keyvault");
 
@@ -27,6 +28,9 @@ async function getConnectionInfo() {
     }
   }
 
+  // To override the database name, set the DATABASE_NAME environment variable in the .env file
+  const DATABASE_NAME = process.env.DATABASE_NAME || "fm-iit-app";
+  
   return {
     DB_URI: process.env.DB_URI,
     DB_NAME: process.env.DB_NAME
