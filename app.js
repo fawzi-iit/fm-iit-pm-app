@@ -12,8 +12,8 @@ const tasksRouter = require('./routes/tasks');
 const app = express();
 
 // MongoDB connection
-const connectDB = require('./config/connection');
-connectDB();
+const getConnectionInfo = require('./config/connection');
+getConnectionInfo();
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
