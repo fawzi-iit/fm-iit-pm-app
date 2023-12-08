@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - iit-fawzi-app1
+name: Build and deploy Node.js app to Azure Web App - fm-iit-app
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'iit-fawzi-app1'
+          app-name: 'fm-iit-app'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_39480EE403E94ABAB744C829CD1C7910 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_72CE356C9A7944BA82F58A98E634ABEB }}
