@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # env files
 .env
+
+# User files
+models/user.js
