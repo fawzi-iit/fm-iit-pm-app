@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const projectsRouter = require('./routes/projects');
@@ -12,13 +11,12 @@ const tasksRouter = require('./routes/tasks');
 const app = express();
 
 // MongoDB connection
-const getConnectionInfo = require('./config/connection');
-getConnectionInfo();
-
 const { getConnectionInfo } = require('./config/connection');
+
 async function init() {
   try {
     await getConnectionInfo();
+    // Additional initialization code can go here
   } catch (error) {
     console.error('Failed to initialize application:', error);
     process.exit(1); // Exit if initialization fails
