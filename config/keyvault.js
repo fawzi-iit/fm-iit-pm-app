@@ -1,15 +1,34 @@
-const { DefaultAzureCredential } = require('@azure/identity');
-const { SecretClient } = require('@azure/keyvault-secrets');
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
 
-const credential = new DefaultAzureCredential();
-const vaultName = process.env.KEY_VAULT_NAME;
-const url = `https://${vaultName}.vault.azure.net`;
+const getSecret = async (secretName, keyVaultName) => {
 
-const client = new SecretClient(url, credential);
+    if (!secretName || !keyVaultName) {
+        throw Error("getSecret: Required params missing")
+    }
+   
+    const credential = new DefaultAzureCredential();
+     
+    // Build the URL to reach your key vault
+    const url = `https://${keyVaultName}.vault.azure.net`;
+     
+    try {
+        // Create client to connect to service
+        const client = new SecretClient(url, credential);
+       
+        // Get secret Obj
+        const latestSecret = await client.getSecret(secretName);
+       
+        console.log(`Secret (${secretName}=${latestSecret.value})`)
 
-async function getSecret(secretName) {
-    const retrievedSecret = await client.getSecret(secretName);
-    return retrievedSecret.value;
+        // Return value
+        return latestSecret.value;
+    } catch (ex) {
+        console.log(ex)
+        throw ex;
+    }
 }
 
-module.exports = { getSecret };
+module.exports = {
+    getSecret
+  }
