@@ -8,67 +8,77 @@ const indexRouter = require('./routes/index');
 const projectsRouter = require('./routes/projects');
 const tasksRouter = require('./routes/tasks');
 
-const app = express();
+var configData = require("./config/connection");
+async function getApp() {
 
-// MongoDB connection
-const { getConnectionInfo } = require('./config/connection');
+  // Database
+  var connectionInfo = await configData.getConnectionInfo();
+  mongoose.connect(connectionInfo.DB_URI);
 
-async function init() {
-  try {
-    await getConnectionInfo();
-    // Additional initialization code can go here
-  } catch (error) {
-    console.error('Failed to initialize application:', error);
-    process.exit(1); // Exit if initialization fails
-  }
+  var app = express();
+
+  var port = normalizePort(process.env.PORT || '3000');
+  app.set('port', port);
+
+  // view engine setup
+  app.set("views", path.join(__dirname, "views"));
+  app.set("view engine", "pug");
+
+  app.use(logger("dev"));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(cookieParser());
+  app.use(express.static(path.join(__dirname, "public")));
+
+  app.locals.format = format;
+
+  app.use("/", indexRouter);
+  app.use("/projects", projectsRouter);
+  app.use("/tasks", tasksRouter);
+
+  app.use("/js", express.static(__dirname + "/node_modules/bootstrap/dist/js")); // redirect bootstrap JS
+  app.use(
+    "/css",
+    express.static(__dirname + "/node_modules/bootstrap/dist/css")
+  ); // redirect CSS bootstrap
+
+  // catch 404 and forward to error handler
+  app.use(function (req, res, next) {
+    next(createError(404));
+  });
+
+  // error handler
+  app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
+
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error");
+  });
+
+  return app;
 }
+/**
+ * Normalize a port into a number, string, or false.
+ */
 
-init();
+ function normalizePort(val) {
+  var port = parseInt(val, 10);
 
-// View engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
 
-// Logger middleware
-app.use(logger('dev'));
+  if (port >= 0) {
+    // port number
+    return port;
+  }
 
-// Body parsing middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// Cookie parsing middleware
-app.use(cookieParser());
-
-// Static file serving middleware
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Route handlers
-app.use('/', indexRouter);
-app.use('/projects', projectsRouter);
-app.use('/tasks', tasksRouter);
-
-// Catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// Error handler
-app.use(function(err, req, res, next) {
-  // Set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // Render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-// Set the port to the environment variable PORT, or 3000 if it's not set
-const port = process.env.PORT || 3000;
-
-// Start the server on the specified port
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-
-module.exports = app;
+  return false;
+}
+module.exports = {
+  getApp
+};
