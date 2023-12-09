@@ -59,4 +59,4 @@ jobs:
           app-name: 'fm-iit-app'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_72CE356C9A7944BA82F58A98E634ABEB }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_83AEE53C510B435E917EC6F5F7FFB241 }}
