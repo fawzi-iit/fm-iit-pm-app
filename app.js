@@ -11,17 +11,23 @@ const tasksRouter = require('./routes/tasks');
 const app = express();
 
 // MongoDB connection
-const { getConnectionInfo } = require('./config/connection');
+const mongoDB = 'mongodb://fm-iit-app-server:YRYYtrpKhIjh9BqTgLU1ZCeuXF0LRT9pPvTG4qnf0tMumcMUv4Xip8oXfkFWj9o428VSvIiLFrQ4ACDbInpNlg==@fm-iit-app-server.mongo.cosmos.azure.com:10255/fm-iit-app-database?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@fm-iit-app-server@';
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-async function init() {
-  try {
-    await getConnectionInfo();
-	}
-  	catch (error) {
-    console.error('Failed to initialize application:', error);
-    process.exit(1); // Exit if initialization fails
-  }
-}
+// MongoDB connection
+//const { getConnectionInfo } = require('./config/connection');
+
+//async function init() {
+//  try {
+//    await getConnectionInfo();
+//	}
+//  	catch (error) {
+//    console.error('Failed to initialize application:', error);
+//    process.exit(1); // Exit if initialization fails
+//  }
+//}
 
 init();
 
