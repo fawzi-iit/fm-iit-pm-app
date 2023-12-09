@@ -30,7 +30,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 //  }
 //}
 
-init();
+// init();
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
